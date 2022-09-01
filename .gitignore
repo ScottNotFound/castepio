@@ -1,0 +1,21 @@
+
+# vscode
+.vscode/*
+
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# distribution
+build/
+dist/
+eggs/
+.eggs/
+var/
+*.egg-info/
+*.egg
+
+# venv
+venv/
+.venv
