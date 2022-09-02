@@ -19,3 +19,6 @@ var/
 # venv
 venv/
 .venv
+
+# vim
+*.swp
