@@ -1,5 +1,6 @@
 from castepio import cell
 
+
 def test_lex1():
     source1 = open("test/resources/c_dia_p010.cell").read()
     tokens1 = cell.CellLexer.static_lex(source1)

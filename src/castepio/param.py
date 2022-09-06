@@ -1,4 +1,4 @@
-"""Context free lexer for the castep cell file."""
+"""Context free lexer for the castep param file."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from .lexer import Lexer
 from .token import TokenError, TokenType
 
 
-class CellLexer(Lexer):
+class ParamLexer(Lexer):
     def lex_token(self) -> None:
         c: str = self.advance()
         if c == "\n":
@@ -22,28 +22,6 @@ class CellLexer(Lexer):
             self.add_token(TokenType.EQUALS)
         elif c == ",":
             self.add_token(TokenType.COMMA)
-        elif c == "|":
-            self.add_token(TokenType.PIPE)
-        elif c == "%":
-            self.add_token(TokenType.PERCENT)
-        elif c == "@":
-            self.add_token(TokenType.ATSIGN)
-        elif c == "(":
-            self.add_token(TokenType.PAREN_LEFT)
-        elif c == ")":
-            self.add_token(TokenType.PAREN_RIGHT)
-        elif c == "[":
-            self.add_token(TokenType.BRACE_LEFT)
-        elif c == "]":
-            self.add_token(TokenType.BRACE_RIGHT)
-        elif c == "{":
-            self.add_token(TokenType.BRACK_LEFT)
-        elif c == "}":
-            self.add_token(TokenType.BRACK_RIGHT)
-        elif c == "<":
-            self.add_token(TokenType.CHEVRON_LEFT)
-        elif c == ">":
-            self.add_token(TokenType.CHEVRON_RIGHT)
         elif c in ["!", "#", ";"]:
             while self.peek() != "\n" and not self.end():
                 self.advance()
