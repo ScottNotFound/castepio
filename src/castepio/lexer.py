@@ -108,7 +108,7 @@ class Lexer(ABC):
         )
 
     def consume_whitespace(self) -> None:
-        match = re.match(r"\s+", self.source[self.current :])
+        match = re.match(r"[ \t\r\f\v]+", self.source[self.current :])
         if match:
             self.current += match.end()
 
