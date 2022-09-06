@@ -17,7 +17,7 @@ class Lexer(ABC):
     lastline: int = 0
 
     FLOAT: re.Pattern = re.compile(r"[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?")
-    STRING: re.Pattern = re.compile(r"[\w+-./]+")
+    STRING: re.Pattern = re.compile(r"[\w+./-]+")
 
     @abstractmethod
     def lex_token(self) -> None:
