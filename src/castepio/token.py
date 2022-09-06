@@ -23,6 +23,10 @@ class TokenType(Enum):
     NEWLINE = 15
     STRING = 17
     FLOAT = 18
+    DQUOTE = 19
+    ASTERISK = 20
+    CARROT = 21
+    QUESTION = 22
 
 
 @dataclass
