@@ -4,10 +4,11 @@ import re
 from abc import ABC, abstractmethod
 from typing import overload
 
-from .token import Comment, Token, TokenType
+from .token import Comment, Token, TokenError, TokenType
 
 
 class Lexer(ABC):
+    filename: str = ""
     source: str
     tokens: list[Token] = []
     comments: list[Comment] = []
@@ -112,6 +113,24 @@ class Lexer(ABC):
         if match:
             self.current += match.end()
 
+    def get_line(self) -> str:
+        endline = self.source[self.lastline :].find("\n") + self.lastline
+        return self.source[self.lastline : endline]
+
+    def lex_error(self, c: str) -> None:
+        message = f"unrecognized character `{c}`"
+        col = self.current - self.lastline
+        reference = f" --> {self.filename}:{self.line}:{col}"
+        underpoke = f"{'^':>{col}}"
+        line = self.get_line()
+        spaces = len(str(self.line)) + 1
+        empty = " " * spaces
+        detail = "\n".join(
+            [f"{empty}|", f"{self.line:<{spaces}}|{line}", f"{empty}|{underpoke}"]
+        )
+
+        raise TokenError("\n".join([message, reference, detail]))
+
     @classmethod
     def static_lex(cls, source: str) -> list[Token]:
         lexer = cls()
@@ -120,3 +139,10 @@ class Lexer(ABC):
     @classmethod
     def tokpass(cls, source: str) -> str:
         return "".join(token.lexeme for token in cls.static_lex(source))
+
+    @classmethod
+    def lex_file(cls, filename: str) -> list[Token]:
+        with open(filename, "r") as f:
+            lexer = cls()
+            lexer.filename = filename
+            return lexer.lex(f.read())

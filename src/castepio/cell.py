@@ -58,7 +58,5 @@ class CellLexer(Lexer):
                     self.add_comment(match.group())
                 self.add_token(TokenType.STRING)
             else:
-                raise TokenError(
-                    f"Unrecognized character {c} at {self.line}:{self.current - self.lastline}."
-                )
+                self.lex_error(c)
         return None
