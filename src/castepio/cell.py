@@ -7,6 +7,23 @@ from .token import TokenError, TokenType
 
 
 class CellLexer(Lexer):
+    token_map: dict[str, TokenType] = {
+        ":": TokenType.COLON,
+        "=": TokenType.EQUALS,
+        ",": TokenType.COMMA,
+        "|": TokenType.PIPE,
+        "%": TokenType.PERCENT,
+        "@": TokenType.ATSIGN,
+        "(": TokenType.PAREN_LEFT,
+        ")": TokenType.PAREN_RIGHT,
+        "[": TokenType.BRACE_LEFT,
+        "]": TokenType.BRACE_RIGHT,
+        "{": TokenType.BRACK_LEFT,
+        "}": TokenType.BRACK_RIGHT,
+        "<": TokenType.CHEVRON_LEFT,
+        ">": TokenType.CHEVRON_RIGHT,
+    }
+
     def lex_token(self) -> None:
         c: str = self.advance()
         if c == "\n":
@@ -16,34 +33,8 @@ class CellLexer(Lexer):
         elif c in [" ", "\r", "\t"]:
             self.consume_whitespace()
             self.add_token(TokenType.WHITESPACE)
-        elif c == ":":
-            self.add_token(TokenType.COLON)
-        elif c == "=":
-            self.add_token(TokenType.EQUALS)
-        elif c == ",":
-            self.add_token(TokenType.COMMA)
-        elif c == "|":
-            self.add_token(TokenType.PIPE)
-        elif c == "%":
-            self.add_token(TokenType.PERCENT)
-        elif c == "@":
-            self.add_token(TokenType.ATSIGN)
-        elif c == "(":
-            self.add_token(TokenType.PAREN_LEFT)
-        elif c == ")":
-            self.add_token(TokenType.PAREN_RIGHT)
-        elif c == "[":
-            self.add_token(TokenType.BRACE_LEFT)
-        elif c == "]":
-            self.add_token(TokenType.BRACE_RIGHT)
-        elif c == "{":
-            self.add_token(TokenType.BRACK_LEFT)
-        elif c == "}":
-            self.add_token(TokenType.BRACK_RIGHT)
-        elif c == "<":
-            self.add_token(TokenType.CHEVRON_LEFT)
-        elif c == ">":
-            self.add_token(TokenType.CHEVRON_RIGHT)
+        elif c in self.token_map:
+            self.add_token(self.token_map[c])
         elif c in ["!", "#", ";"]:
             while self.peek() != "\n" and not self.end():
                 self.advance()
@@ -54,8 +45,6 @@ class CellLexer(Lexer):
                 self.add_token(TokenType.FLOAT, float(match.group()))
             elif match := self.STRING.match(self.source[self.start :]):
                 self.current += match.end() - 1
-                if match.group().lower() == "comment":
-                    self.add_comment(match.group())
                 self.add_token(TokenType.STRING)
             else:
                 self.lex_error(c)
