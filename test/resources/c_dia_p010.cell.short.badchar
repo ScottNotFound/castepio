@@ -1,0 +1,33 @@
+# CELL file written 15:41:48 (GMT-4.0) 23rd June 2022 from run c_dia_p010
+
+%BLOCK lattice_cart
+   ANG
+       1.77226065612950        1.77226065612950        0.00000000000000    
+       1.77226065612950       0.106119620458216E-35    1.77226065612950    
+     -0.106119620458216E-35    1.77226065612950        1.77226065612950    
+%ENDBLOCK lattice_cart
+
+%BLOCK cel??&&$$ints
+      1   1   1
+      0   0   0
+%ENDBLOCK cell_constraints
+
+%BLOCK positions_frac
+   C              0.125000000000000       0.125000000000000       0.125000000000000
+   C              0.875000000000000       0.875000000000000       0.875000000000000
+%ENDBLOCK positions_frac
+
+%BLOCK species_pot
+   C       2|1.4|10|12|13|20:21(qc=7)
+%ENDBLOCK species_pot
+
+SYMMETRY_TOL :     0.001000
+
+kpoint_mp_spacing 0.02
+
+%BLOCK external_pressure
+   GPA
+        10.00000000      0.00000000      0.00000000
+        10.00000000      0.00000000
+        10.00000000
+%ENDBLOCK external_pressure
