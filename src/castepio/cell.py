@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .parser import Parser
 from .lexer import Lexer
 from .token import TokenError, TokenType
 
@@ -49,3 +50,7 @@ class CellLexer(Lexer):
             else:
                 self.lex_error(c)
         return None
+
+
+class CellParser(Parser):
+    pass
