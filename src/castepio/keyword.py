@@ -10,10 +10,21 @@ from typing import Any
 @dataclass
 class Keyword(ABC):
     key: str
+    definition: Value | Block
 
 
 @dataclass
-class Value(Keyword, metaclass=ABCMeta):
+class KeywordV(Keyword):
+    definition: Value
+
+
+@dataclass
+class KeywordB(Keyword):
+    definition: Block
+
+
+@dataclass
+class Value(metaclass=ABCMeta):
     value: Any
 
 
@@ -30,7 +41,6 @@ class Logical(Value):
 @dataclass
 class Number(Value, metaclass=ABCMeta):
     value: int | float
-    units: str
 
 
 @dataclass
@@ -44,11 +54,23 @@ class Real(Number):
 
 
 @dataclass
-class Line:
+class Physical(Real):
+    value: float
+    units: str | None
+
+
+@dataclass
+class Vector(Value):
     value: list[Value]
 
 
 @dataclass
-class Block(Keyword):
+class Line:
+    value: list[Value]
+    flag: KeywordV
+
+
+@dataclass
+class Block:
     value: list[Line]
-    units: str
+    units: str | None
