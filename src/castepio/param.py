@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+from castepio.keyword import Keyword
+
 from .lexer import Lexer
+from .parser import Parser
 from .token import TokenError, TokenType
 
 
@@ -49,3 +52,20 @@ class ParamLexer(Lexer):
             else:
                 self.lex_error(c)
         return None
+
+
+class ParamParser(Parser):
+    
+    def parse_keyword(self) -> Keyword:
+        if self.check_current(TokenType.PERCENT):
+            return self.parse_block()
+        elif self.check_current(TokenType.STRING):
+            return self.parse_keywordv()
+        else:
+            raise self.error(self.peek_current())
+        
+    def self.parse_block():
+        pass
+    
+    def self.parse_keywordv():
+        pass
